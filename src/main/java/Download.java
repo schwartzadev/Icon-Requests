@@ -22,21 +22,11 @@ import org.jsoup.nodes.Element;
 public class Download {
     private static String imgDestination = "img/";
     public static void main(String args[]) {
-        print("running...");
         Document document;
-        String[] url = {};
-        List<String> newUrl = new ArrayList<String>();
-        String line = "";
-        // Make String array from CSV
-        try (BufferedReader br = new BufferedReader(new FileReader("test.csv"))) {
-            while ((line = br.readLine()) != null) {
-                url = line.split(",");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        List<String> newUrl = new ArrayList<>();
 
-
+        String[] url = makeLinkArray("test.csv");
+        
         for (int i = 0; i < url.length; i++) { // for every given URL from the csv
             try {
                 //Connect to given Play Store link
@@ -87,6 +77,20 @@ public class Download {
         }
 
         print("\ndone");
+    }
+
+    public static String[] makeLinkArray(String fileName) {
+        String[] url = {};
+        String line;
+        // Make String array from CSV
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            while ((line = br.readLine()) != null) {
+                url = line.split(",");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return url;
     }
 
 
