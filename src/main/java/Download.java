@@ -24,16 +24,15 @@ public class Download {
     public static void main(String args[]) {
         Document document;
         List<String> newUrl = new ArrayList<>();
-
         String[] url = makeLinkArray("test.csv");
-        
+
         for (int i = 0; i < url.length; i++) { // for every given URL from the csv
             try {
                 //Connect to given Play Store link
                 document = Jsoup.connect(url[i]).get();
 
                 String title = (document.title().substring(0, document.title().length() - 30));   // Get title of app, without the information @ Google Play
-                print("[" + i + "/" + url.length + "] " + title); //Print title.
+                System.out.println("[" + i + "/" + url.length + "] " + title); //Print title.
 
                 Element ratings = document.select("div > div > div > div > div > div > div > div > div > div > div > div > span > span").first(); //Get # of reviews
                 int ratingCount = 0;
@@ -52,12 +51,11 @@ public class Download {
                 else { // if # of reviews is less than specified max, say no
                     System.out.println("NO");
                 }
-                print(""); // console spacing
+                System.out.println(""); // console spacing
 
             } catch (HttpStatusException h) { // catch 404 error, print it for the given URL
-                print("[" + i + "/" + url.length + "] 404 ERROR");
-                print("NO");
-                print("");
+                System.out.println("[" + i + "/" + url.length + "] 404 ERROR");
+                System.out.println("NO\n");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -69,14 +67,14 @@ public class Download {
             PrintWriter writer = new PrintWriter("bigRequests.csv");
             for (String s : newUrl) {
                 writer.println(s);
-                print(s);
+                System.out.println(s);
             }
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        print("\ndone");
+        System.out.println("\ndone");
     }
 
     public static String[] makeLinkArray(String fileName) {
@@ -91,11 +89,6 @@ public class Download {
             e.printStackTrace();
         }
         return url;
-    }
-
-
-    public static void print(String string) {
-        System.out.println(string);
     }
 
     private static void downloadImage(String strImageURL, String t){
@@ -116,7 +109,7 @@ public class Download {
                 os.write(buffer, 0, n);
             }
             os.close();
-            print("Saved");
+            System.out.println("Saved");
         } catch (IOException e) {
             e.printStackTrace();
         }
